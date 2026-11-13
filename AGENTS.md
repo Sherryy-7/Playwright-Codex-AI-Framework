@@ -1,31 +1,26 @@
-# Agent rules
+# Repository agent rules
 
 ## Roles
 
-1. Codex extracts business rules from a ticket.
-2. The planner agent writes test plans.
-3. The QA lead approves medium-risk merges and releases.
-4. The QA lead and business owner approve high-risk merges and releases.
+1. The human writes the specs and the business rules. Codex writes the tests, page objects and fixtures.
 
 ## Who edits what
 
-5. The user writes tickets and acceptance criteria, business rules with IDs, specs and test plans, prompts for Codex and the agents, and policies for risk tiers, gate rules, and approvals.
-6. Codex writes test, framework, and app code.
-7. Agents run tests and collect evidence.
+2. Nobody types test code by hand.
 
 ## Protected assertions
 
-8. Agents must not change an assertion that carries a business rule ID.
+3. An assertion that checks a business rule (a BR-ID) is protected. No agent may change it to make a test pass.
 
 ## The healer
 
-9. Every heal is approved by the user as a pull request.
+4. The healer may fix locators, waits and test data. Never a BR-ID assertion.
+5. If the app breaks a business rule, report a suspected product defect. Do not heal it.
 
 ## Gate rules
 
-10. Merges and releases are approved by risk tier: low risk by policy check, medium risk by the QA lead, and high risk by the QA lead and business owner.
-11. The user does not approve a change without seeing its evidence.
+6. Nothing merges unless the gate is green. High-risk changes need a human approval.
 
 ## Secrets
 
-12. Agents must not put an API key in a prompt, a file, or on screen.
+7. Never put an API key or a token in a prompt, a file or a log.

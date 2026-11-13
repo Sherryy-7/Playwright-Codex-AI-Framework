@@ -5,7 +5,6 @@ export default defineConfig({
   reporter: [['html', { outputFolder: 'reports', open: 'never' }]],
   use: {
     baseURL: process.env.BASE_URL ?? 'http://127.0.0.1:8096',
-    ...devices['Desktop Chrome'],
   },
   projects: [
     {

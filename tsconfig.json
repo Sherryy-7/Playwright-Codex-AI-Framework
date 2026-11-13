@@ -4,13 +4,11 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": ["node"],
-"resolveJsonModule": true,
     "noEmit": true,
-    "ignoreDeprecations": "6.0"
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "types": ["node"]
   },
-  "include": ["playwright.config.ts", "tests/**/*.ts", "pages/**/*.ts", "fixtures/**/*.ts"]
+  "include": ["playwright.config.ts", "tests/**/*.ts", "pages/**/*.ts", "fixtures/**/*.ts"],
+  "exclude": ["node_modules", "reports", "test-results"]
 }
