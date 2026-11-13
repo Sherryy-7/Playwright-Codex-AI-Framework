@@ -2,22 +2,22 @@
 
 ## Route
 
-Opening `http://127.0.0.1:8096` redirects to `http://127.0.0.1:8096/app#/login`, titled “Sign in to ParimiPractice · ParimiPractice.” The patient refill route is not exposed to a signed-out visitor, so I could not confirm its authenticated URL or the location of the refill control without signing in.
+Opening `http://127.0.0.1:8096` lands at `http://127.0.0.1:8096/app#/login`, titled “Sign in to ParimiPractice · ParimiPractice.” The signed-out page describes the portal as supporting prescription refills, but does not expose a patient prescription list or a refill action. The only patient-facing route available from the login screen is account creation at `http://127.0.0.1:8096/app#/signup`; I did not submit that form. The authenticated route and location of the refill control could not be established without signing in.
 
 ## What a visitor can see without signing in
 
-The login page has EN and ES language buttons, email and password fields, a “Show password” checkbox, a “Sign in” button, and a link to create a new patient account. It also displays fictional demo-account roles (Patient, Doctor, Nurse, Front desk, Admin, and Locked) with their test credentials and “Use” buttons. A note says each sign-in sends a one-time code to the test inbox (top right). No patient prescriptions or refill controls are visible while signed out.
+The login page offers EN/ES language buttons, email and password fields, a show-password checkbox, a sign-in button, and a link to create a patient account. It lists fictional demo account roles with “Use” buttons and notes that sign-in sends a one-time code to the test inbox. The shared information panel advertises appointments, care-team messaging, lab results, and prescription refills, and identifies the app as fictional training software.
+
+The account-creation page has fields for invented patient details (name, date of birth, sex assigned at birth, state, insurance plan, email, and password), a terms/privacy checkbox, and a create-account button. No prescription or refill information is visible on either public page. No account was selected or created, and no sign-in was attempted.
 
 ## What is needed to test PP-201 end to end
 
-PP-201 requires verifying that only an active prescription can be requested; a prescription with refills remaining sends a request to the pharmacy, changes status to “Refill requested,” and decrements the remaining count; a prescription with no refills changes status to “Renewal requested” and tells the patient the provider was asked to renew it; and both request types are written to the audit log.
+PP-201 requires checking that only active prescriptions can be refilled; for an active prescription with refills remaining, the request reaches the pharmacy, the status becomes “Refill requested,” and the remaining count decreases by one; for an active prescription with no refills, the status becomes “Renewal requested” and the patient is told their provider was asked to renew it. Both request types must also appear in the audit log.
 
-To test this end to end, I would need:
+To cover those outcomes, an end-to-end test needs:
 
-- An authorized patient test account and the ability to complete the one-time-code step using the test inbox.
-- Authenticated navigation details to the patient’s prescriptions and refill request action.
-- Synthetic test prescriptions covering active with refills remaining, active with zero refills, and inactive status.
-- Access to the pharmacy request outcome and audit log so delivery, status/count changes, and audit entries can be checked.
-- A way to reset or isolate the test records so repeated requests do not affect other test runs.
-
-No sign-in or account selection was performed during this session.
+- An authorized patient test account and access to the test inbox for the one-time-code step.
+- The authenticated route to that patient’s prescriptions and the refill request control.
+- Synthetic records for active prescriptions with refills remaining, active prescriptions with zero refills, and inactive prescriptions.
+- A way to observe the patient-facing result, pharmacy request, prescription status and refill count, and corresponding audit-log entry.
+- A reset or isolated test data strategy so a request does not affect later runs.
